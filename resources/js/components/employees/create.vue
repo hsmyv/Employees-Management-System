@@ -13,7 +13,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form >
+                            <form @submit.prevent="storeEmployee">
                                 <div class="row mb-3">
                                     <label for="first_name" class="col-md-4 col-form-label text-md-end">First Name</label>
 
@@ -116,6 +116,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import moment from 'moment';
     export default {
         components:{
             Datepicker
@@ -177,6 +178,31 @@ import Datepicker from 'vuejs-datepicker';
                     }).catch(error => {
                         console.log(console.error)
                     })
+            },
+            storeEmployee(){
+                axios.post("/api/employees/",{
+                    'first_name': this.form.first_name,
+                    'middle_name': this.form.middle_name,
+                    'last_name': this.form.last_name,
+                    'address': this.form.address,
+                    'country_id': this.form.country_id,
+                    'state_id': this.form.state_id,
+                    'city_id': this.form.city_id,
+                    'department_id': this.form.department_id,
+                    'zip_code': this.form.zip_code,
+                    'birthdate': this.format_date(form.birthdate),
+                    'date_hired': this.format_date(form.date_hired),
+
+                }).then(res => {
+                    console.log(res);
+                }).catch(error => {
+                    console.error(error.response.data);
+                });
+            },
+            format_date(value){
+                if(value){
+                    return moment(String(value)).format("YYYYMMDD");
+                }
             }
         }
 };
