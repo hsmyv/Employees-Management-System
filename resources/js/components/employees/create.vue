@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-header">Create Employees<router-link :to="{name: 'EmployeesIndex'}" class="float-right btn btn-primary mb-2">Back</router-link>
 
-                        </div>
+                         </div>
 
                         <div class="card-body">
                             <form @submit.prevent="storeEmployee">
@@ -19,28 +19,28 @@
 
                                     <div class="col-md-6">
                                         <input v-model="form.first_name" id="first_name" type="text" class="form-control"
-                                            name="name" value="" required>
+                                            name="first_name" value="" required>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="middle_name" class="col-md-4 col-form-label text-md-end">Middle Name</label>
 
                                     <div class="col-md-6">
-                                        <input v-model="form.middle_name" id="middle_name" type="text" class="form-control" name="name" value="" required>
+                                        <input v-model="form.middle_name" id="middle_name" type="text" class="form-control" name="middle_name" value="" required>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="last_name" class="col-md-4 col-form-label text-md-end">Last Name</label>
 
                                     <div class="col-md-6">
-                                        <input v-model="form.last_name" id="last_name" type="text" class="form-control" name="name" value="" required>
+                                        <input v-model="form.last_name" id="last_name" type="text" class="form-control" name="last_name" value="" required>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="address" class="col-md-4 col-form-label text-md-end">Address</label>
 
                                     <div class="col-md-6">
-                                        <input v-model="form.address" id="address" type="text" class="form-control" name="name" value="" required>
+                                        <input v-model="form.address" id="address" type="text" class="form-control" name="address" value="" required>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -64,7 +64,7 @@
                                 <div class="row mb-3">
                                     <label for="department" class="col-md-4 col-form-label text-md-end">Department</label>
                                     <div class="col-md-6">
-                                        <select v-model="form.department_id"  class="form-control" aria-label="Default select example">
+                                        <select name="department_id" v-model="form.department_id"  class="form-control" aria-label="Default select example">
                                             <option v-for="department in departments" :key="department.id" :value="department.id" selected>{{ department.name }}</option>
                                         </select>
                                     </div>
@@ -81,20 +81,20 @@
                                     <label for="zip_code" class="col-md-4 col-form-label text-md-end">Zip Code</label>
 
                                     <div class="col-md-6">
-                                        <input v-model="form.zip_code" id="zip_code" type="text" class="form-control" name="name" value="" required>
+                                        <input v-model="form.zip_code" id="zip_code" type="text" class="form-control" name="zip_code" value="" required>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="birthdate" class="col-md-4 col-form-label text-md-end">Birthdate</label>
                                     <div class="col-md-6">
-                                        <datepicker v-model="form.birthdate" input-class="form-control"></datepicker>
+                                        <datepicker name="birthdate" v-model="form.birthdate" input-class="form-control"></datepicker>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="date_hired" class="col-md-4 col-form-label text-md-end">Date hired</label>
                                     <div class="col-md-6">
-                                        <datepicker v-model="form.date_hired" input-class="form-control"></datepicker>
+                                        <datepicker name="date_hired" v-model="form.date_hired" input-class="form-control"></datepicker>
                                     </div>
                                 </div>
                                 <div class="row mb-0">
@@ -180,7 +180,7 @@ import moment from 'moment';
                     })
             },
             storeEmployee(){
-                axios.post("/api/employees/",{
+                axios.post("/api/employees",{
                     'first_name': this.form.first_name,
                     'middle_name': this.form.middle_name,
                     'last_name': this.form.last_name,
@@ -190,11 +190,11 @@ import moment from 'moment';
                     'city_id': this.form.city_id,
                     'department_id': this.form.department_id,
                     'zip_code': this.form.zip_code,
-                    'birthdate': this.format_date(form.birthdate),
-                    'date_hired': this.format_date(form.date_hired),
+                    'birthdate': this.format_date(this.form.birthdate),
+                    'date_hired': this.format_date(this.form.date_hired),
 
                 }).then(res => {
-                    console.log(res);
+                    this.$router.push({name: 'EmployeesIndex'});
                 }).catch(error => {
                     console.error(error.response.data);
                 });
