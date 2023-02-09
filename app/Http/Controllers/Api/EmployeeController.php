@@ -9,6 +9,8 @@ use App\Http\Resources\EmployeeSingleResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
+use function Psy\debug;
+
 class EmployeeController extends Controller
 {
     /**
@@ -18,13 +20,20 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
+
         $employees = Employee::all();
+
         if($request->search){
             $employees = Employee::where("first_name", "like", "%{$request->search}%")
             ->orWhere("last_name", "like", "%{$request->search}%")
             ->get();
         }elseif($request->department_id){
             $employees = Employee::where('department_id', $request->department_id)->get();
+        }
+        if($request->search && $request->department_id)
+        {
+            $employees = Employee::where("first_name", "like", "%{$request->search}%")->where('department_id', $request->department_id)->get();
+
         }
         return EmployeeResource::collection($employees);
     }

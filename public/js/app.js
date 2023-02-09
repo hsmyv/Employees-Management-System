@@ -5876,8 +5876,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -51837,7 +51835,7 @@ var render = function () {
                       attrs: {
                         type: "search",
                         id: "inlineFormInput",
-                        placeholder: "Employee",
+                        placeholder: "Search..",
                       },
                       domProps: { value: _vm.search },
                       on: {
@@ -51847,8 +51845,6 @@ var render = function () {
                       },
                     }),
                   ]),
-                  _vm._v(" "),
-                  _vm._m(1),
                   _vm._v(" "),
                   _c("div", { staticClass: "col" }, [
                     _c(
@@ -51863,10 +51859,7 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          name: "city",
-                          "aria-label": "Default select example",
-                        },
+                        attrs: { "aria-label": "Default select example" },
                         on: {
                           change: function ($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -51920,7 +51913,7 @@ var render = function () {
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c(
               "tbody",
@@ -51997,18 +51990,6 @@ var staticRenderFns = [
         ]),
       ]
     )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary mb-2", attrs: { type: "submit" } },
-        [_vm._v("Search")]
-      ),
-    ])
   },
   function () {
     var _vm = this
