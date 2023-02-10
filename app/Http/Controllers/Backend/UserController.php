@@ -13,6 +13,12 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:assignRole', ['only' => ['assignRole', 'revokeRole']]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -68,7 +74,7 @@ class UserController extends Controller
 
         $roles = Role::all();
         $permissions = Permission::all();
-        return view('users.edit', compact('user','role', 'roles', 'permissions'));
+        return view('users.edit', compact('user', 'role', 'roles', 'permissions'));
     }
 
     /**
@@ -97,7 +103,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if($user->hasRole('admin')){
+        if ($user->hasRole('admin')) {
             return back()->with('userMessage', 'You are admin');
         }
         if (auth()->user()->id == $user->id) {
@@ -143,5 +149,4 @@ class UserController extends Controller
         }
         return back()->with('permissionMessage', 'Permission does not exists');
     }
-
 }

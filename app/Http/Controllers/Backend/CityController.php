@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:update-city',['only' => ['create','store']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,9 +35,11 @@ class CityController extends Controller
      */
     public function create()
     {
-        $states = State::all();
-        return view('cities.create', compact('states'));
+              $states = State::all();
+              return view('cities.create', compact('states'));
+
     }
+
 
     /**
      * Store a newly created resource in storage.

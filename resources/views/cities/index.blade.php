@@ -21,7 +21,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col">
                                     <input type="search" name="search" class="form-control mb-2" id="inlineFormInput"
-                                        placeholder="State">
+                                        placeholder="City">
                                 </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary mb-2">Search</button>
@@ -40,7 +40,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#Id</th>
-                            <th scope="col">State Name</th>
+                            <th scope="col">City Name</th>
                             <th scope="col">Name</th>
                             <th scope="col">Manage</th>
                         </tr>
