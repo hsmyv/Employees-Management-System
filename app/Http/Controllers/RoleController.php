@@ -92,7 +92,7 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->route('roles.index')->with('message', 'Role Deleted Successfully');
     }
-    public function givePermission(Request $request, Role $role)
+    public function assignPermission(Request $request, Role $role)
     {
         if ($role->hasPermissionTo($request->permission)) {
             return back()->with('message', 'Permission exists!');
@@ -107,6 +107,6 @@ class RoleController extends Controller
             $role->revokePermissionTo($permission);
             return back()->with('message', 'Permission revoked');
         }
-        return back()->with('message', 'Permission not exists');
+        return back()->with('message', 'Permission does not exists');
     }
 }

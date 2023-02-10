@@ -12,6 +12,13 @@
                 <div class="card-header">{{ __('Update User') }}
                     <a href="{{route('users.index')}}" class="float-right">Back</a>
                 </div>
+                <div>
+                        @if (session()->has('userMessage'))
+                                    <div class="alert alert-success">
+                                        {{ session('userMessage') }}
+                                    </div>
+                                @endif
+                            </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('users.update', $user->id) }}">
@@ -131,4 +138,136 @@
         </div>
     </div>
 </div>
+<br>
+ <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Roles') }} <a href="{{ route('roles.index') }}"
+                            class="float-right"></a>
+                    </div>
+
+                    <div class="card-body">
+                        <div>
+                        @if (session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div style="padding-bottom: 5%">
+                            @if ($user->roles)
+                                @foreach ($user->roles as $user_role)
+                                    <form method="POST"
+                                        action="{{ route('users.roles.revoke', [$user->id, $user_role->id]) }}"
+                                        onsubmit="return confirm('Are you sure?');" style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="btn btn-success">{{ $user_role->name }}</button>
+                                    </form>
+                                @endforeach
+                            @endif
+                        </div>
+                            <form method="POST" action="{{ route('users.roles', $user->id) }}">
+                                @csrf
+                                <div class="row mb-3">
+                                    <label for="role"
+                                        class="col-md-4 col-form-label text-md-end">{{ __('Roles') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select name="role" class="form-control" aria-label="Default select example">
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('role')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="row mb-0">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Assign role') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+     <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('User Permissions') }} <a href="{{ route('users.index') }}"
+                            class="float-right"></a>
+                    </div>
+
+                    <div class="card-body">
+                        <div>
+                        @if (session()->has('permissionMessage'))
+                                    <div class="alert alert-success">
+                                        {{ session('permissionMessage') }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div style="padding-bottom: 5%">
+                            @if ($user->permissions)
+                                @foreach ($user->permissions as $user_permission)
+                                    <form method="POST"
+                                        action="{{ route('users.permissions.revoke', [$user->id, $user_permission->id]) }}"
+                                        onsubmit="return confirm('Are you sure?');" style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="btn btn-success">{{ $user_permission->name }}</button>
+                                    </form>
+                                @endforeach
+                            @endif
+                        </div>
+                            <form method="POST" action="{{ route('users.permissions', $user->id) }}">
+                                @csrf
+                                <div class="row mb-3">
+                                    <label for="permission"
+                                        class="col-md-4 col-form-label text-md-end">{{ __('Permission') }}</label>
+
+                                    <div class="col-md-6">
+                                        <select name="permission" class="form-control" aria-label="Default select example">
+                                            @foreach ($permissions as $permission)
+                                                <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('permission')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="row mb-0">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Assign permission') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

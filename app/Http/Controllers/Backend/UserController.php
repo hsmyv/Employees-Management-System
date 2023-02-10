@@ -8,6 +8,8 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -43,13 +45,14 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        User::create([
+        $user = User::create([
             'username' => $request->username,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->assignRole('user');
 
         return redirect()->route('users.index')->with('message', 'User Register Successfully');
     }
@@ -60,9 +63,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(User $user, Role $role)
     {
-        return view('users.edit', compact('user'));
+
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('users.edit', compact('user','role', 'roles', 'permissions'));
     }
 
     /**
@@ -91,10 +97,51 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if($user->hasRole('admin')){
+            return back()->with('userMessage', 'You are admin');
+        }
         if (auth()->user()->id == $user->id) {
-            return redirect()->route('users.index')->with('message', 'You are deleting yourself!');
+            return redirect()->route('users.index')->with('userMessage', 'You are deleting yourself!');
         }
         $user->delete();
-        return redirect()->route('users.index')->with('message', 'User Deleted Successfully!');
+        return redirect()->route('users.index')->with('userMmessage', 'User Deleted Successfully!');
     }
+
+    public function assignRole(Request $request, User $user)
+    {
+        if ($user->hasRole($request->role)) {
+            return back()->with('message', 'Role exists!');
+        }
+        $user->assignRole($request->role);
+        return back()->with('message', 'Role assigned');
+    }
+
+    public function revokeRole(User $user, Role $role)
+    {
+        if ($user->hasRole($role)) {
+            $user->removeRole($role);
+            return back()->with('message', 'Role removed');
+        }
+        return back()->with('message', 'Role does not exists');
+    }
+
+
+    public function assignPermission(Request $request, User $user)
+    {
+        if ($user->hasPermissionTo($request->permission)) {
+            return back()->with('permissionMessage', "Permission exists!(It may be user's role has this permission*)");
+        }
+        $user->givePermissionTo($request->permission);
+        return back()->with('permissionMessage', 'Permission added successfully');
+    }
+
+    public function revokePermission(User $user, Permission $permission)
+    {
+        if ($user->hasPermissionTo($permission)) {
+            $user->revokePermissionTo($permission);
+            return back()->with('permissionMessage', 'Permission revoked');
+        }
+        return back()->with('permissionMessage', 'Permission does not exists');
+    }
+
 }

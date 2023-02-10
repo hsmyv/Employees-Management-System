@@ -8,7 +8,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                <p style="font-size:15px; text-align: right" >Users store automatically as 'user' role*</p>
                 <div class="card">
+
                     <div class="card-header">{{ __('Register') }}
                         <a href="{{ route('users.index') }}" class="float-right">Back</a>
 

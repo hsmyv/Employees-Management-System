@@ -58,7 +58,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Roles Permissions') }} <a href="{{ route('roles.index') }}"
+                    <div class="card-header">{{ __('Role Permissions') }} <a href="{{ route('roles.index') }}"
                             class="float-right"></a>
                     </div>
 
@@ -118,6 +118,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
     @endsection
